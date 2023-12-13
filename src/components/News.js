@@ -38,12 +38,20 @@ const News = (props) => {
 
   const fetchMoreData = async () => {
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=ac542cfba886443f874f8b46e67e7196&page=${page + 1}&pageSize=${props.pageSize}`;
-    setPage(page + 1)
-    let data = await fetch(url);
-    let parsedData = await data.json()
-    setArticles(articles.concat(parsedData.articles))
-    setTotalResults(parsedData.totalResults)
+    setPage(page + 1);
+    
+    try {
+      let data = await fetch(url);
+      let parsedData = await data.json();
+      
+      // Use the functional form of setArticles to update based on previous state
+      setArticles(prevArticles => [...prevArticles, ...parsedData.articles]);
+      setTotalResults(parsedData.totalResults);
+    } catch (error) {
+      console.error("Error fetching more data:", error);
+    }
   };
+  
 
   return (
     <>
