@@ -39,11 +39,11 @@ const News = (props) => {
   const fetchMoreData = async () => {
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=ac542cfba886443f874f8b46e67e7196&page=${page + 1}&pageSize=${props.pageSize}`;
     setPage(page + 1);
-    
+
     try {
       let data = await fetch(url);
       let parsedData = await data.json();
-      
+
       // Use the functional form of setArticles to update based on previous state
       setArticles(prevArticles => [...prevArticles, ...parsedData.articles]);
       setTotalResults(parsedData.totalResults);
@@ -51,18 +51,27 @@ const News = (props) => {
       console.error("Error fetching more data:", error);
     }
   };
-  
+
 
   return (
     <>
       <h1 className="text-center" style={{ margin: '35px 0px', marginTop: '90px' }}>News Card - Top {capitalizeFirstLetter(props.category)} Headlines</h1>
       {loading && <Spinner />}
-      <InfiniteScroll
+      {/* <InfiniteScroll
         dataLength={articles.length}
         next={fetchMoreData}
         hasMore={articles.length !== totalResults}
         loader={<Spinner />}
-      >
+      > */}
+
+        <InfiniteScroll
+          dataLength={articles.length}
+          next={fetchMoreData}
+          hasMore={articles.length !== totalResults}
+          loader={<Spinner />}
+        >
+
+
         <div className="container">
 
           <div className="row">
