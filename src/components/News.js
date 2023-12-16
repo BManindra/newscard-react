@@ -36,7 +36,8 @@ const News = (props) => {
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=9f9c7a85e7374c098389a1b0892598b0&page=${page}&pageSize=${props.pageSize}`;
     
     try {
-      let data = await fetch(url);
+      // let data = await fetch(url);
+      let data = await fetch(url, { method: 'GET', mode: 'cors', headers: { 'Upgrade-Insecure-Requests': '1' } });
       props.setProgress(30);
       let parsedData = await data.json();
       props.setProgress(70);
