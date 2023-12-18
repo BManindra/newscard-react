@@ -36,8 +36,7 @@ const News = (props) => {
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=9f9c7a85e7374c098389a1b0892598b0&page=${page}&pageSize=${props.pageSize}`;
     
     try {
-      // let data = await fetch(url);
-      let data = await fetch(url, { method: 'GET', mode: 'cors', headers: { 'Upgrade-Insecure-Requests': '1' } });
+      let data = await fetch(url);
       props.setProgress(30);
       let parsedData = await data.json();
       props.setProgress(70);
@@ -56,21 +55,21 @@ const News = (props) => {
   }, [])
 
 
-  // const fetchMoreData = async () => {
-  //   const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=ac542cfba886443f874f8b46e67e7196&page=${page + 1}&pageSize=${props.pageSize}`;
-  //   setPage(page + 1);
+  const fetchMoreData = async () => {
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=ac542cfba886443f874f8b46e67e7196&page=${page + 1}&pageSize=${props.pageSize}`;
+    setPage(page + 1);
 
-  //   try {
-  //     let data = await fetch(url);
-  //     let parsedData = await data.json();
+    try {
+      let data = await fetch(url);
+      let parsedData = await data.json();
 
-  //     // Use the functional form of setArticles to update based on previous state
-  //     setArticles(prevArticles => [...prevArticles, ...parsedData.articles]);
-  //     setTotalResults(parsedData.totalResults);
-  //   } catch (error) {
-  //     console.error("Error fetching more data:", error);
-  //   }
-  // };
+      // Use the functional form of setArticles to update based on previous state
+      setArticles(prevArticles => [...prevArticles, ...parsedData.articles]);
+      setTotalResults(parsedData.totalResults);
+    } catch (error) {
+      console.error("Error fetching more data:", error);
+    }
+  };
 
 
   return (
