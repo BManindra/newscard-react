@@ -8,8 +8,8 @@ import PropTypes from 'prop-types'
 const News = (props) => {
   const [articles, setArticles] = useState([])
   // const [loading, setLoading] = useState(true)
-  // const [page, setPage] = useState(1)
-  // const [totalResults, setTotalResults] = useState(0)
+  const [page, setPage] = useState(1)
+  const [totalResults, setTotalResults] = useState(0)
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -33,8 +33,8 @@ const News = (props) => {
   const updateNews = async () => {
     props.setProgress(10);
     const page = props.page || 1; // Set a default value for page if not provided
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=9f9c7a85e7374c098389a1b0892598b0&page=${page}&pageSize=${props.pageSize}`;
-    
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=ac542cfba886443f874f8b46e67e7196&page=${page}&pageSize=${props.pageSize}`;
+
     try {
       let data = await fetch(url);
       props.setProgress(30);
@@ -46,7 +46,7 @@ const News = (props) => {
       console.error("Error updating news:", error);
     }
   }
-  
+
 
   useEffect(() => {
     document.title = `${capitalizeFirstLetter(props.category)} - News Card`;
@@ -76,24 +76,28 @@ const News = (props) => {
     <>
       <h1 className="text-center" style={{ margin: '35px 0px', marginTop: '90px' }}>News Card - Top {capitalizeFirstLetter(props.category)} Headlines</h1>
       {/* {loading && <Spinner />} */}
-        {/* <InfiniteScroll
+      {/* <InfiniteScroll
           dataLength={articles.length}
           next={fetchMoreData}
           hasMore={articles.length !== totalResults}
           loader={<Spinner />}
         > */}
 
+      {/* dataLength={articles.length}
+      next={fetchMoreData}
+      hasMore={articles.length !== totalResults} */}
 
-        <div className="container">
 
-          <div className="row">
-            {articles && articles.map((element) => {
-              return <div className="col-md-4" key={element.url}>
-                <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
-              </div>
-            })}
-          </div>  
+      <div className="container">
+
+        <div className="row">
+          {articles && articles.map((element) => {
+            return <div className="col-md-4" key={element.url}>
+              <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
+            </div>
+          })}
         </div>
+      </div>
       {/* </InfiniteScroll> */}
     </>
   )
